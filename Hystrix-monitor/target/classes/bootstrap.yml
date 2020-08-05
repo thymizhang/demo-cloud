@@ -1,0 +1,7 @@
+server:
+  port: 8080
+
+#监控台地址: http://localhost:8080/hystrix
+#被监控的端点需要引入spring-boot-starter-actuator依赖
+
+#如果提交监控地址后不能访问,可能与springcloud版本有关

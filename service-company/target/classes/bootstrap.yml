@@ -1,0 +1,54 @@
+#在springcloud中, bootstrap.yml文件先于application.yml加载
+#除了spring.nacos.*的配置, 其他配置均可被配置中的内容覆盖, 包括server.port
+spring:
+  application:
+    name: service-company
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos: #引入nacos: 服务发现、配置管理
+      discovery:
+        server-addr: nacos.gceasy.cc #以多地址方式访问集群时,如果有一台nacos服务器出现问题,会一直报错,建议使用VIP方式集群
+      config:
+        server-addr: nacos.gceasy.cc #客户端默认访问服务地址是8848,无需指定端口
+        file-extension: yml  #配置文件扩展名,根据prefix.file-extension找到nacos服务器中的配置(Data Id)
+        namespace: GCEASY-DEV
+        group: GCEASY
+  shardingsphere: #sharding-jdbc多数据源读写分离配置
+    datasource:
+      names: master,slave1
+      master: #主数据源
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.p6spy.engine.spy.P6SpyDriver #com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:p6spy:mysql://mysql.gceasy.cc:3306/gceasy_demo?useSSL=false&serverTimezone=Hongkong&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: gceasy2020
+      slave1: #从数据源
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+        jdbc-url: jdbc:p6spy:mysql://mysqlslave.gceasy.cc:3306/gceasy_demo?useSSL=false&serverTimezone=Hongkong&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: gceasy2020
+    masterslave: #读写分离配置
+      load-balance-algorithm-type: round_robin #用于配置从库负载均衡算法类型，可选值：ROUND_ROBIN(轮询)，RANDOM（随机）
+      name: ms #最终的数据源名称
+      master-data-source-name: master #主库数据源名称
+      slave-data-source-names: slave1 #从库数据源名称列表，多个逗号分隔
+    props:
+      sql: #开启SQL显示，默认false
+        show: true
+
+security: #配置认证资源服务器信息
+  oauth2:
+    client:
+      client-id: client
+      client-secret: secret
+      access-token-uri: http://localhost:8080/oauth/token #请求令牌的地址
+      user-authorization-uri: http://localhost:8080/oauth/authorize #授权地址
+    resource:
+      token-info-uri: http://localhost:8080/oauth/check_token #检查token是否有效的地址, 该地址需要在OAuth服务器端忽略访问授权(在WebSecurityConfiguration配置)
+
+management: #关闭数据库健康检查, 可能是sharding-jdbc与其他数据源配置冲突, 尚未解决, 可以打开测试
+  health:
+    db:
+      enabled: false

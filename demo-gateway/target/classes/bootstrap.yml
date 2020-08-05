@@ -1,0 +1,50 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: demo-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos.gceasy.cc #默认端口8848,可不写
+    sentinel: #引入sentinel: 流控、熔断降级、系统负载保护
+      transport:
+        dashboard: sentinel.gceasy.cc:9090
+        port: 9091 #可不提供，默认为 8719，若端口冲突会自动向下探测可用的端口
+      #eager: true #服务启动直接建立心跳连接
+      #block-page: /fallback #限流后重定向页面, 测试没有通过,重定向失败*
+      log: #日志文件目录
+        dir: /gcelogs
+      datasource: #配置动态数据源,将流控、降级规则交给nacos数据源来管理,需要依赖`sentinel-datasource-nacos`
+        ds1:
+          nacos:
+            server-addr: nacos.gceasy.cc:8848
+            data-id: ${spring.application.name}-sentinel-flow-rule.json #流控规则
+            group-id: GCEASY
+            data-type: json
+            rule-type: flow
+    gateway:
+      discovery:
+        locator:
+          enabled: true #开启后,可以直接使用应用名称调用服务, 例: http://localhost:8000/service-user/user/port
+          lower-case-service-id: true #服务名小写
+      routes:
+        - id: user_route #配置微服务的转发和限流策略
+          uri: lb://service-user #注册中心中服务的名称,固定格式
+          predicates:
+            - Path= /user/** #自动转发请求到rui地址, 需要微服务的地址有统一的开头(如: "/user")
+        - id: project_route #配置了sentinel流控降级规则
+          uri: lb://service-project
+          predicates:
+            - Path= /project/**
+security: #配置认证资源服务器信息
+  oauth2:
+    client:
+      client-id: client
+      client-secret: secret
+      access-token-uri: http://localhost:8080/oauth/token #请求令牌的地址
+      user-authorization-uri: http://localhost:8080/oauth/authorize #授权地址
+    resource:
+      id: demo-api #资源id, 貌似没有作用
+      token-info-uri: http://localhost:8080/oauth/check_token #检查token是否有效的地址, 该地址需要在OAuth服务器端忽略访问授权(在WebSecurityConfiguration配置)
+      user-info-uri: http://localhost/api/project/all

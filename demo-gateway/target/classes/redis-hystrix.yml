@@ -1,0 +1,50 @@
+# 该配置使用令牌桶策略配置限流, hystrix配置超时限流
+# 缺点: 效率比较低,且不能动态更新限流策略
+server:
+  port: 8000
+spring:
+  application:
+    name: demo-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos.gceasy.cc #默认端口8848,可不写
+    gateway:
+      discovery:
+        locator:
+          enabled: true #开启后,可以直接使用应用名称调用服务, 例: http://localhost:8000/service-user/user/port
+          lower-case-service-id: true #服务名小写
+      routes:
+        - id: user_route #配置微服务的转发和限流策略
+          uri: lb://service-user #注册中心中服务的名称,固定格式
+          predicates:
+            - Path= /user/** #自动转发请求到rui地址, 需要微服务的地址有统一的开头(如: "/user")
+          filters: #为路由配置局部拦截器
+            #- StripPrefix=1 # 加上StripPrefix=1，否则转发到后端服务时会带上user前缀
+            - name: RequestRateLimiter #配置令牌桶限流,不推荐(需要同时取消redis和hystrix配置)
+              args:
+                key-resolver: '#{@uriKeyResolver}' #用于限流的键的解析器的Bean对象的名字, 需要实现KeyResolver接口,
+                redis-rate-limiter.replenishRate: 3 #每1秒钟向令牌桶中加一个令牌
+                redis-rate-limiter.burstCapacity: 10 #令牌桶的最大令牌数,达到该值停止向令牌桶中添加令牌
+            - name: Hystrix #配置熔断降级
+              args:
+                name: fallbackcmd
+                fallbackUri: forward:/fallback
+        - id: project_route #配置了sentinel流控降级规则
+          uri: lb://service-project
+          predicates:
+            - Path= /project/**
+
+  redis: #gateway整合了redis实现令牌桶算法限流,不推荐使用 (替代方案:sentinel)
+    host: redis.gceasy.cc
+    port: 6379
+    database: 0
+
+hystrix: #熔断器配置
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 3000 #超时时间，若不设置超时时间则有可能无法触发熔断

@@ -1,0 +1,56 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource #hikari是默认的数据源,可以不指定
+    #mysql8的驱动, 开发和测试环境使用p6spy监控sql效率
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver #com.mysql.cj.jdbc.Driver
+    #mysql8的url需要指定时区serverTimezone=Hongkong
+    jdbc-url: jdbc:p6spy:mysql://mysql.gceasy.cc:3306/gceasy_demo?useSSL=false&serverTimezone=Hongkong&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: gceasy2020
+  shardingsphere:
+    datasource:
+      names: master,slave1
+      master: #主数据源
+        type: com.zaxxer.hikari.HikariDataSource
+        #driver-class-name: com.mysql.cj.jdbc.Driver
+        driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+        #jdbc-url: jdbc:mysql://mysql.gceasy.cc:3306/gceasy_demo?useSSL=false&serverTimezone=Hongkong&useUnicode=true&characterEncoding=UTF-8
+        jdbc-url: jdbc:p6spy:mysql://mysql.gceasy.cc:3306/gceasy_demo?useSSL=false&serverTimezone=Hongkong&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: gceasy2020
+      slave1: #从数据源
+        type: com.zaxxer.hikari.HikariDataSource
+        #driver-class-name: com.mysql.cj.jdbc.Driver
+        driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+        #jdbc-url: jdbc:mysql://192.168.213.142:3306/gceasy_demo?useSSL=false&serverTimezone=Hongkong&useUnicode=true&characterEncoding=UTF-8
+        jdbc-url: jdbc:p6spy:mysql://192.168.213.142:3306/gceasy_demo?useSSL=false&serverTimezone=Hongkong&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: gceasy2020
+    masterslave: #读写分离配置
+      load-balance-algorithm-type: round_robin #用于配置从库负载均衡算法类型，可选值：ROUND_ROBIN(轮询)，RANDOM（随机）
+      name: ms #最终的数据源名称
+      master-data-source-name: master #主库数据源名称
+      slave-data-source-names: slave1 #从库数据源名称列表，多个逗号分隔
+    props:
+      sql: #开启SQL显示，默认false
+        show: true
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #控制台输出sql信息
+    map-underscore-to-camel-case: true #驼峰映射规则,比如字段company_name,映射为对象属性就是companyName
+  global-config:
+    db-config:
+      table-prefix: tb_ #全局表名前缀
+      table-underline: true #默认数据库表名使用下划线规则
+      logic-not-delete-value: 0 #逻辑未删除默认值
+      logic-delete-value: 1 #逻辑已删除默认值
+      logic-delete-field: deleted #全局默认的逻辑删除字段,设置后无需再使用@TableLogic注解
+
+
+#logging:
+#  level:
+#    root: info
+#    org.springframework.web: info
+#    com.lucifer.sharding.dao: debug

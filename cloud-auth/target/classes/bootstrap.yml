@@ -1,0 +1,60 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: service-auth
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos.gceasy.cc #省略默认端口号8848
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://mysql.gceasy.cc:3306/gceasy_demo?useSSL=false&serverTimezone=Hongkong&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: gceasy2020
+    hikari: #hikaricp连接池配置
+      read-only: true #连接只读数据库时配置为true， 保证安全
+      minimum-idle: 5
+      idle-timeout: 600000 #一个连接idle状态的最大时长（毫秒），超时则被释放（retired），缺省:10分钟
+      maximum-pool-size: 60 #连接池中允许的最大连接数。缺省值：10
+      auto-commit: true
+      pool-name: GCeasy-HikariCP
+      max-lifetime: 1800000 #一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:30分钟，建议设置比数据库超时时长少30秒
+      connection-timeout: 30000 #等待连接池分配连接的最大时长（毫秒），超过这个时长还没可用的连接则发生SQLException， 缺省:30秒
+      connection-test-query: SELECT 1
+#mybatis-plus配置
+mybatis-plus:
+# mapper-locations: classpath:mapper/*.xml
+# type-aliases-package: com.demo.auth.pojo
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #控制台输出sql信息
+    map-underscore-to-camel-case: true #驼峰映射规则,比如字段company_name,映射为对象属性就是companyName
+  global-config:
+    db-config:
+      table-prefix: tb_ #全局表名前缀
+      #id-type: uuid #全局uuid,如果局部配置了id-type, 局部优先于全局
+      table-underline: true #默认数据库表名使用下划线规则
+      logic-not-delete-value: 0 #逻辑未删除默认值
+      logic-delete-value: 1 #逻辑已删除默认值
+      logic-delete-field: deleted #全局默认的逻辑删除字段,设置后无需再使用@TableLogic注解
+
+auth: #认证服务器参数
+  server:
+    keyPath: classpath:gceasy.jks
+    alias: gceasy
+    secret: gceasy
+    password: gceasy
+
+
+security: #配置认证服务器
+  oauth2:
+    authorization:
+      jwt: #jwt令牌非对称加密参数
+        key-alias: gceasy
+        key-password: gceasy
+        key-store: gceasy.jks
+        key-store-password: gceasy
+      check-token-access: http://localhost:8080/oauth/check_token

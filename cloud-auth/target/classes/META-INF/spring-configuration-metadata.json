@@ -1,0 +1,41 @@
+{
+  "groups": [
+    {
+      "name": "auth.server",
+      "type": "com.demo.auth.config.properties.AuthServerProperties",
+      "sourceType": "com.demo.auth.config.properties.AuthServerProperties"
+    },
+    {
+      "name": "spring.datasource",
+      "type": "javax.sql.DataSource",
+      "sourceType": "com.demo.auth.config.WebSecurityConfiguration",
+      "sourceMethod": "dataSource()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "auth.server.alias",
+      "type": "java.lang.String",
+      "description": "别名",
+      "sourceType": "com.demo.auth.config.properties.AuthServerProperties"
+    },
+    {
+      "name": "auth.server.key-path",
+      "type": "org.springframework.core.io.Resource",
+      "description": "路径",
+      "sourceType": "com.demo.auth.config.properties.AuthServerProperties"
+    },
+    {
+      "name": "auth.server.password",
+      "type": "java.lang.String",
+      "sourceType": "com.demo.auth.config.properties.AuthServerProperties"
+    },
+    {
+      "name": "auth.server.secret",
+      "type": "java.lang.String",
+      "description": "密码",
+      "sourceType": "com.demo.auth.config.properties.AuthServerProperties"
+    }
+  ],
+  "hints": []
+}

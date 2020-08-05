@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/cloud-application/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-service-company-api/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-service-company/cloud-service-company-api/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-service-company/cloud-service-company-server/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-service-company/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-service-note/cloud-service-note-api/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-service-note/cloud-service-note-server/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-service-note/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud-test/pom.xml" />
+        <option value="$PROJECT_DIR$/common/pom.xml" />
+        <option value="$PROJECT_DIR$/company-service/pom.xml" />
+        <option value="$PROJECT_DIR$/note-service/pom.xml" />
+        <option value="$PROJECT_DIR$/service-test/pom.xml" />
+        <option value="$PROJECT_DIR$/user-service/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="false" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

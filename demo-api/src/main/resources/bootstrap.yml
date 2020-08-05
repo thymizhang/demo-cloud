@@ -1,0 +1,56 @@
+auth-server: http://localhost:8080 #认证授权服务器地址
+
+server:
+  port: 80
+
+spring:
+  application:
+    name: demo-api
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql.gceasy.cc:3306/gceasy_demo?useSSL=false&serverTimezone=Hongkong&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: gceasy2020
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos.gceasy.cc #默认端口8848,可不写
+    sentinel: #引入sentinel: 流控、熔断降级、系统负载保护
+      transport:
+        dashboard: sentinel.gceasy.cc:9090
+        port: 9091 #可不提供，默认为 8719，若端口冲突会自动向下探测可用的端口
+      datasource: #配置动态数据源,将流控、降级规则交给nacos数据源来管理
+        ds1:
+          nacos:
+            server-addr: nacos.gceasy.cc:8848
+            data-id: ${spring.application.name}-sentinel-flow-rule.json #流控规则
+            group-id: GCEASY
+            data-type: json
+            rule-type: flow
+        ds2:
+          nacos:
+            server-addr: nacos.gceasy.cc:8848
+            data-id: ${spring.application.name}-sentinel-degrade-rule.json #降级规则
+            group-id: GCEASY
+            data-type: json
+            rule-type: degrade
+security: #配置认证资源服务器信息
+  oauth2:
+    client:
+      client-id: client
+      client-secret: secret
+      access-token-uri: ${auth-server}/oauth/token #请求令牌的地址
+      user-authorization-uri: ${auth-server}/oauth/authorize #授权地址
+    resource:
+      token-info-uri: ${auth-server}/oauth/check_token #检查token是否有效的地址, 该地址需要在OAuth服务器端忽略访问授权(在WebSecurityConfiguration配置)
+      jwt:
+        key-value: ${auth-server}/auth/pubkey #由于该版本的key-uri参数会报错,这里借用key-value来存放公钥地址
+    authorization:
+      check-token-access: ${auth-server}/oauth/check_token
+
+
+feign: #开启sentinel熔断降级
+  sentinel:
+    enabled: true

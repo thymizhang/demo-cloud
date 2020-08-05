@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="service-user" />
+        <module name="cloud-test" />
+        <module name="service-test" />
+        <module name="cloud-common" />
+        <module name="demo-api" />
+        <module name="service-company" />
+        <module name="Hystrix-monitor" />
+        <module name="cloud-auth" />
+        <module name="service-project" />
+        <module name="demo-gateway" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="11">
+      <module name="cloud-application" target="11" />
+      <module name="cloud-gateway" target="11" />
+      <module name="cloud-service-company" target="11" />
+      <module name="cloud-service-company-api" target="11" />
+      <module name="cloud-service-company-server" target="11" />
+      <module name="cloud-service-note" target="11" />
+      <module name="cloud-service-note-api" target="11" />
+      <module name="cloud-service-note-server" target="11" />
+      <module name="cloud-test" target="1.7" />
+      <module name="service-test" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="service-user" options="" />
+    </option>
+  </component>
+</project>
