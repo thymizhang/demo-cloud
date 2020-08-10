@@ -7,6 +7,8 @@ spring:
     allow-bean-definition-overriding: true
   cloud:
     nacos:
+      discovery:
+        server-addr: nacos.gceasy.cc #默认端口8848,可不写
       config:
         server-addr: nacos.gceasy.cc #默认端口8848,可不写
         prefix: service-project #配置文件名, 如果不配置, 默认是spring.application.name
