@@ -3,6 +3,9 @@
 * 基于gateway的sentinel限流
 * 基于gateway的OAuth2认证授权
 
+## 工程启动参数配置
+VM Options : `-Dcsp.sentinel.web.servlet.block.page=https://www.baidu.com`
+
 ## spring-cloud-gateway应用
 * uri地址映射,类似nginx的反向代理
 * 将拦截器用于埋点控制
