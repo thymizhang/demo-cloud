@@ -15,8 +15,8 @@ java -Dport=8080 -Dfile.encoding=UTF-8 -jar service-project-1.0-SNAPSHOT.jar --s
 
 * 服务启动后一直报错误: com.alibaba.nacos.client.naming: [NA] failed to request 
 > SpringBoot SpringCloud SpringCloudAlibaba三者版本不对所致,以下时亲测有效版本:  
-> SpringBoot:2.2.6.RELEASE(2.2.7就会报错)  
-> SpringCloud:Hoxton.SR4  
+> SpringBoot:2.3.2.RELEASE  
+> SpringCloud:Hoxton.SR6  
 > SpringCloudAlibaba:2.2.1.RELEASE
 > 说明一下: SpringCloudAlibaba官方支持的最高SpringCloud版本是Greenwich.SR5, Greenwich对应的SpringBoot版本是2.1.x, 这里做了跨版本尝试  
 > 版本对照地址: https://spring.io/projects/spring-cloud , 详见Table 1. Release train Spring Boot compatibility
@@ -49,8 +49,8 @@ java -Dport=8080 -Dfile.encoding=UTF-8 -jar service-project-1.0-SNAPSHOT.jar --s
 
 * 报javax.xml.bind.JAXBException异常(好像是sharding-jdbc有用到这个包)  
 > 原因 : JAXB API是java EE 的API，因此在java SE 9.0 中不再包含这个 Jar 包  
-> 解决方案1 : 将jdk降级到1.8
-> 解决方案2 : 增加以下依赖
+> 解决方案1 : 将jdk降级到1.8  
+> 解决方案2 : 增加以下依赖  
 ```
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
