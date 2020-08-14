@@ -69,3 +69,18 @@ java -Dport=8080 -Dfile.encoding=UTF-8 -jar service-project-1.0-SNAPSHOT.jar --s
 > 解决思路: 
 > 1 将认证授权服务与用户服务剥离, 认证授权服务独立使用数据源, 剥离的用户服务采用sharding-jdbc数据源;  
 > 2 认证授权服务使用用户登录服务时, 采用远程调用(feign)的方式.  
+
+
+* 打包问题: 依赖common的工程打包提示:程序包XXXX不存在  
+> 原因: springboot工程默认打包是可执行包(包含BOOT-INF目录), 需要将默认包打成非可执行包  
+> 解决: 在pom中增加打包参数classifier, 将可执行包与非可执行包分开打包  
+```
+<plugin>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-maven-plugin</artifactId>
+      <configuration>
+          <!-- 指定classifier, 打包时会将可执行包与非可执行包分开打包, 避免依赖工程找不到依赖 -->
+          <classifier>exec</classifier>
+      </configuration>
+  </plugin>
+```

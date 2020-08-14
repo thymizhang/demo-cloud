@@ -9,14 +9,15 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service-project</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>demo-service-project</artifactId>
+    <groupId>org.example</groupId>
+    <version>1.0.0</version>
 
     <dependencies>
         <dependency>
-            <artifactId>cloud-common</artifactId>
+            <artifactId>demo-cloud-common</artifactId>
             <groupId>org.example</groupId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
 
         <dependency>
@@ -65,4 +66,16 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 有多个main方法时需要指定mainClass, 只能有一个启动类 -->
+                    <mainClass>com.demo.project.ProjectServiceApplication</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
