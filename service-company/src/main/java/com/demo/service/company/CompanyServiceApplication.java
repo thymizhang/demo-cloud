@@ -1,5 +1,6 @@
 package com.demo.service.company;
 
+import com.demo.common.util.JvmUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -13,5 +14,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class CompanyServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(CompanyServiceApplication.class, args);
+        JvmUtil.getMemoryStatus();
     }
 }

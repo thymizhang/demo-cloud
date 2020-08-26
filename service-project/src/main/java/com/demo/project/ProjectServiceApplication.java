@@ -1,5 +1,6 @@
 package com.demo.project;
 
+import com.demo.common.util.JvmUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
@@ -24,5 +25,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class ProjectServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(ProjectServiceApplication.class, args);
+        JvmUtil.getMemoryStatus();
     }
 }
