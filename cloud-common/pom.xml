@@ -14,10 +14,10 @@
     <version>1.0.0</version>
 
     <dependencies>
-        <dependency>
+<!--        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
+        </dependency>-->
         <!-- 由于这里默认引入了mybatis-plus, 所有依赖common的工程都需要配置数据源 -->
         <dependency>
             <groupId>com.baomidou</groupId>
