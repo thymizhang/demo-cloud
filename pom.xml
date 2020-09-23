@@ -120,6 +120,12 @@
                 <artifactId>lombok</artifactId>
                 <version>1.18.12</version>
             </dependency>
+            <!--  国人整理的工具包,包括Bean操作、日期、各种Util等 -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-core</artifactId>
+                <version>5.4.3</version>
+            </dependency>
             <!-- redis, 应用点: 网关令牌桶限流, 高频数据缓存
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -151,6 +157,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
         </dependency>
     </dependencies>
 
