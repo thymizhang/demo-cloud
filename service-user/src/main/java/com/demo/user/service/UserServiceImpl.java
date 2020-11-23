@@ -6,15 +6,22 @@ import com.demo.common.dao.ResponseResult;
 import com.demo.common.model.user.Permission;
 import com.demo.common.model.user.User;
 import com.demo.common.service.UserService;
+import com.demo.common.util.data.JsonUtil;
+import com.demo.common.util.redis.RedisUtil;
 import com.demo.user.feign.ProjectFeign;
 import com.demo.user.mapper.PermissionMapper;
 import com.demo.user.mapper.UserMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.api.hint.HintManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +46,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     PermissionMapper permissionMapper;
 
+    @Autowired
+    //@Qualifier("redisTemplate")
+    RedisTemplate redisTemplate;
+
     @Value("${server.port}")
     String port;
 
@@ -50,12 +61,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getPort() {
-        //        try {
-        //            TimeUnit.SECONDS.sleep(1);
-        //        } catch (InterruptedException e) {
-        //            e.printStackTrace();
-        //        }
+        /*try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
         return port;
+    }
+
+    @Override
+    public String getRedis(String username) {
+        if (username == null || username.trim() == "") {
+            return "请输入用户名";
+        }
+
+        // 操作字符串
+        User user = this.selectOne(username);
+        String redisKey = "user:" + user.getId();
+//        redisTemplate.opsForValue().setIfAbsent(redisKey, JsonUtil.toJsonString(user));
+//        Object demo = redisTemplate.opsForValue().get(redisKey);
+        RedisUtil redisUtil = new RedisUtil(redisTemplate);
+        // 保存对象需要序列化
+        redisUtil.set(redisKey, JsonUtil.toJsonString(user));
+        Object demo = redisUtil.get(redisKey);
+        return demo.toString();
     }
 
     @Override
@@ -89,7 +118,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Permission> selectPermissionByUserId(Long UserId) {
-        if (UserId == null){
+        if (UserId == null) {
             return Lists.newArrayList();
         }
         return permissionMapper.selectByUserId(UserId);

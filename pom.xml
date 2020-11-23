@@ -44,7 +44,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.3.4.RELEASE</version>
+                <version>2.4.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -52,7 +52,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Hoxton.SR8</version>
+                <version>Hoxton.SR9</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -74,14 +74,14 @@
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.21</version>
+                <version>8.0.22</version>
             </dependency>
             <!-- 数据库交互插件,使用mybatis-plus时,不要导入mybatis的依赖 -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
 <!--                <version>3.3.2</version>-->
-                <version>3.4.0</version>
+                <version>3.4.1</version>
             </dependency>
             <!-- 读写分离, 分库边表插件 -->
             <dependency>
@@ -94,7 +94,7 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-generator</artifactId>
-                <version>3.3.2</version>
+                <version>3.4.1</version>
             </dependency>
             <!-- 模板引擎, MyBatisPlus代码生成器需要用到 -->
             <dependency>
@@ -106,7 +106,7 @@
             <dependency>
                 <groupId>p6spy</groupId>
                 <artifactId>p6spy</artifactId>
-                <version>3.9.0</version>
+                <version>3.9.1</version>
             </dependency>
             <!-- sharding-jdbc在JDK11环境下需要, 否则会报JAXBException -->
             <dependency>
@@ -118,7 +118,7 @@
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.18.12</version>
+                <version>1.18.16</version>
             </dependency>
             <!--  国人整理的工具包,包括Bean操作、日期、各种Util等 -->
             <dependency>
@@ -176,7 +176,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.3.2.RELEASE</version>
+                <version>2.3.3.RELEASE</version>
 <!--                <configuration>-->
 <!--                    <layers>-->
 <!--                        <enabled>true</enabled>-->

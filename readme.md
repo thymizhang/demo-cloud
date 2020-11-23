@@ -1,8 +1,8 @@
 ##不同环境启动说明
 * 命令行启动(windows环境下需要指定编码)  
-```
-java -Dport=8080 -Dfile.encoding=UTF-8 -jar service-project-1.0-SNAPSHOT.jar --spring.profiles.active=dev
-```
+   ```
+   java -Dport=8080 -Dfile.encoding=UTF-8 -jar service-project-1.0-SNAPSHOT.jar --spring.profiles.active=dev
+   ```
 
 ##SpringCloud的架构缺陷
 > 1 由于采用Http协议通信, 服务由Controller实现接口, 服务间的互相访问和外部访问服务都通过这个接口, 由于鉴权通常在Controller层通过注解实现, 可能导致服务之间调用时会受鉴权影响;  

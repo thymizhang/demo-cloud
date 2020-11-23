@@ -14,10 +14,10 @@
     <version>1.0.0</version>
 
     <dependencies>
-<!--        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>-->
+        <!--        <dependency>
+                    <groupId>org.projectlombok</groupId>
+                    <artifactId>lombok</artifactId>
+                </dependency>-->
         <!-- 由于这里默认引入了mybatis-plus, 所有依赖common的工程都需要配置数据源 -->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -27,6 +27,11 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!-- redis工具需要用到  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
     </dependencies>
 

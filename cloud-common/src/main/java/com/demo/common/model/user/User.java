@@ -1,6 +1,11 @@
 package com.demo.common.model.user;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -70,17 +75,27 @@ public class User {
     /**
      * FieldFill.INSERT: 在插入时自动填充时间
      * 注意需要配置MetaObjectHandler实现
-     * 时间类的自动填充建议使用数据库设置会好些
+     * 时间类的自动填充建议使用数据库设置会好些<br/>
+     * LocalDateTime格式存储到redis需要指定序列化方式
+     * @JsonDeserialize @JsonSerialize @JsonFormat
      */
 //    @TableField(fill = FieldFill.INSERT)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat( pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime created;
 
     /**
      * FieldFill.UPDATE: 在更新时自动填充时间
      * 注意需要配置MetaObjectHandler实现
-     * 时间类的自动填充建议使用数据库设置会好些
+     * 时间类的自动填充建议使用数据库设置会好些 <br/>
+     * LocalDateTime格式存储到redis需要指定序列化方式
+     * @JsonDeserialize @JsonSerialize @JsonFormat
      */
 //    @TableField(fill = FieldFill.INSERT_UPDATE)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat( pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updated;
 
     /**

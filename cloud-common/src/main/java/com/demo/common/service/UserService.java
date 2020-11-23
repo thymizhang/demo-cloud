@@ -3,6 +3,7 @@ package com.demo.common.service;
 import com.demo.common.dao.ResponseResult;
 import com.demo.common.model.user.Permission;
 import com.demo.common.model.user.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,15 @@ public interface UserService {
      */
     @GetMapping("/port")
     String getPort();
+
+    /**
+     * redis测试接口
+     *
+     * @param username 用户名
+     * @return
+     */
+    @GetMapping("/redis/{username}")
+    String getRedis(@PathVariable("username") String username);
 
     /**
      * 获取唯一用户, 统一对象返回

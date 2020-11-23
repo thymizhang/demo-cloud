@@ -52,22 +52,24 @@ spring:
       sql: #开启SQL显示，默认false
         show: true
   redis: #redis配置
-    cluster:
-      nodes:
-        - rrn0.gceasy.cc:7000
-        - rrn0.gceasy.cc:7001
-        - rrn1.gceasy.cc:7000
-        - rrn1.gceasy.cc:7001
-        - rrn2.gceasy.cc:7000
-        - rrn2.gceasy.cc:7001
-      max-redirects: 3  # 获取失败 最大重定向次数
+    host: redis.gceasy.cc
+    port: 6379
+    timeout: 6000  # 连接超时时长（毫秒）
+#    cluster: #集群连接配置
+#      nodes:
+#        - rrn0.gceasy.cc:7000
+#        - rrn0.gceasy.cc:7001
+#        - rrn1.gceasy.cc:7000
+#        - rrn1.gceasy.cc:7001
+#        - rrn2.gceasy.cc:7000
+#        - rrn2.gceasy.cc:7001
+#      max-redirects: 3  # 获取失败 最大重定向次数
     lettuce:
-      pool:
+      pool: # 注意: 使用连接池需要加入commons-pool2依赖
         max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
         max-idle: 10    # 连接池中的最大空闲连接
-        max-wait: -1   # 连接池最大阻塞等待时间（使用负值表示没有限制）
         min-idle:  5     # 连接池中的最小空闲连接
-    timeout: 6000  # 连接超时时长（毫秒）
+        max-wait: -1   # 连接池最大阻塞等待时间（使用负值表示没有限制）
 #mybatis-plus配置
 mybatis-plus:
   configuration:
