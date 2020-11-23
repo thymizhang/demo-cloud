@@ -1,15 +1,15 @@
-##不同环境启动说明
+## 不同环境启动说明
 * 命令行启动(windows环境下需要指定编码)  
    ```
    java -Dport=8080 -Dfile.encoding=UTF-8 -jar service-project-1.0-SNAPSHOT.jar --spring.profiles.active=dev
    ```
 
-##SpringCloud的架构缺陷
+## SpringCloud的架构缺陷
 > 1 由于采用Http协议通信, 服务由Controller实现接口, 服务间的互相访问和外部访问服务都通过这个接口, 由于鉴权通常在Controller层通过注解实现, 可能导致服务之间调用时会受鉴权影响;  
 > 2 如果服务间的调用通过其他方式(比如:rpc), 需要再配置一套服务端口及服务发现规则, 导致代码维护工作增大;  
 > 本工程微服务的Controller后期改名为ServiceImpl, 对外开放接口单独建立Web工程, 由Web工程的Controller对外开放接口, 鉴权也统一在Controller完成.  
 
-##问题
+## 问题
 * maven自动下载依赖问题(工程JDK版本为11)  
 > 在Setting->Build,Execution,Deployment->Maven->Importing->设置JDK为1.8
 
