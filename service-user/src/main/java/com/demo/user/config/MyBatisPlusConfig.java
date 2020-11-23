@@ -1,9 +1,17 @@
 package com.demo.user.config;
 
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * MyBatisPlus配置类
@@ -16,27 +24,16 @@ import org.springframework.context.annotation.Configuration;
 public class MyBatisPlusConfig {
 
     /**
-     * 引入分页插件
+     * mybatis plus分页插件配置，3.4.0及以上版本<br/>
+     * 参考：https://mybatis.plus/guide/interceptor.html#mybatisplusinterceptor
      *
-     * @return
+     * @return MybatisPlusInterceptor
      */
     @Bean
-    public PaginationInterceptor paginationInterceptor() {
-        //动态表名
-        //ArrayList<ISqlParser> sqlParsers = new ArrayList<>();
-
-        //动态表名处理器
-        //        DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
-        //        Map<String, ITableNameHandler> tableNameHandlerMap = new HashMap<>();
-        //        tableNameHandlerMap.put("user", new ITableNameHandler() {
-        //            @Override
-        //            public String dynamicTableName(MetaObject metaObject, String sql, String tableName) {
-        //                return null;
-        //            }
-        //        });
-        //        dynamicTableNameParser.setTableNameHandlerMap(tableNameHandlerMap);
-
-        return new PaginationInterceptor();
+    public MybatisPlusInterceptor paginationInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        return interceptor;
     }
 
     /**
