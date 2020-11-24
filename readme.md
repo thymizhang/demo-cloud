@@ -1,8 +1,37 @@
+## 项目概况
+demo-cloud是一个实验性项目（非脚手架），基于Spring Cloud框架搭建，对主流框架、中间件、工具类进行测试，测试的重点在于：
+1. 框架：版本融合，找到不同框架间最佳的兼容版本；
+2. 数据库：基于RDB的分布式，快速分库分表开发；
+3. 安全：基于gateway的统一入口的令牌访问，请求认证授权；
+4. 可靠性：基于gateway的限流、熔断、降级策略；
+5. 性能：复杂查询下的QPS极限；
+项目的最终目的会形成一个基于kubernetes部署的快速开发脚手架项目（scaffold-k8s）。
+
+
+## 项目介绍
+1. cloud-common：公共项目，包括所有工程会用到的工具类、数据Model、DAO、所有微服务接口；
+2. cloud-auth：认证授权，基于Spring Security框架实现的用户认证、token授权，支持Oauth2协议，用户认证通过service-user；
+3. demo-api： 统一外部接口，包括：认证资源服务器（统一鉴权），基于sentinel的限流、熔断、降级，基于nacos服务发现，基于Feign调用下级服务；
+4. demo-gateway：网关，准备取代demo-api，包括：认证资源服务器（统一鉴权），基于sentinel的限流、熔断、降级，不需要重写外部接口；
+5. service-company：公司服务，包含若干用户和项目，包括：认证资源服务器（项目鉴权），基于nacos服务注册与发现，基于nacos配置抽离，基于sentinel熔断回调，基于feign服务间调用，mybatis-plus逆向工程；
+6. service-project：项目服务，包括：基于nacos服务注册与发现，基于nacos配置抽离，基于feign服务间调用，JDK8特性测试，mybatis-plus数据映射、分页；
+7. service-user：用户服务，包括：基于nacos服务注册与发现，基于nacos配置抽离，基于feign服务间调用，基于sharding-jdbc读写分离，hystrix服务熔断降级，redis缓存；
+
+
+## 项目运行环境
+1. JDK 11.0.8
+2. MySQL 8.0.21
+3. Redis 6.0.8
+4. RabbitMQ 3.8.9
+5. Nacos 1.4.0
+6. Sentinel 1.8.0
+
+
 ## 不同环境启动说明
 * 命令行启动(windows环境下需要指定编码)  
-   ```
-   java -Dport=8080 -Dfile.encoding=UTF-8 -jar service-project-1.0-SNAPSHOT.jar --spring.profiles.active=dev
-   ```
+```
+java -Dport=8080 -Dfile.encoding=UTF-8 -jar service-project-1.0-SNAPSHOT.jar --spring.profiles.active=dev
+```
 
 ## SpringCloud的架构缺陷
 > 1 由于采用Http协议通信, 服务由Controller实现接口, 服务间的互相访问和外部访问服务都通过这个接口, 由于鉴权通常在Controller层通过注解实现, 可能导致服务之间调用时会受鉴权影响;  
