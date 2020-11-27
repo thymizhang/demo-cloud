@@ -17,11 +17,11 @@ import com.demo.user.mapper.UserMapper;
 import com.demo.user.mapper.UserRoleMapper;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shardingsphere.api.hint.HintManager;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -37,10 +37,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
+ * 在spring boot升级到2.4.0后，junit也随之升级到5.0，需要如下调整：<br/>
+ * 1. @RunWith(SpringRunner.class)改为@ExtendWith(SpringExtension.class)；<br/>
+ * 2. @Test改为引用org.junit.jupiter.api.Test；
+ *
  * @Author thymi
- * @Date 2020/6/30
+ * @Date 2020/11/26
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {UserServiceApplication.class})
 public class UserApplicationTest {
 
@@ -66,7 +70,7 @@ public class UserApplicationTest {
             Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet rs = preparedStatement.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 System.out.println(rs.toString());
             }
         } catch (SQLException throwables) {
